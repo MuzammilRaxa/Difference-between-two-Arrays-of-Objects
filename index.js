@@ -56,3 +56,39 @@ console.log(getDifference(arrA, arrB));
 // The only thing that we changed is we switched the values between the arr1 and arr2 variables.
 
 // Now we call the filter method on the first array, however the only object it contains is also contained in the second array, so the getDifference method returns an empty array.
+
+
+// We would expect the return value to be [{id: 2, name: 'John'}].
+
+// To solve this problem, we need to call the getDifference method two times and combine the results.
+// index.js
+
+const arrX = [{ id: 1, name: 'Tom' }];
+const arrY = [
+    { id: 1, name: 'Tom' },
+    { id: 2, name: 'John' },
+];
+
+function getDifference(array1, array2) {
+    return array1.filter(object1 => {
+        return !array2.some(object2 => {
+            return object1.id === object2.id;
+        });
+    });
+}
+
+const difference = [
+    ...getDifference(arrX, arrY),
+    ...getDifference(arrY, arrX)
+];
+
+// 👇️ [{id: 2, name: 'John'}]
+console.log(difference);
+// Here's what we did to get this working:
+
+// Call the filter method on the first array and return only the objects that are not contained in the second array.
+// Call the filter method on the second array and return only the objects that are not contained in the first array.
+// We combined the results from the two arrays into a third array, using the spread operator (...) syntax.
+// An easy way to think about the spread operator (...) is that we are unpacking the values of one array into another array.
+
+// Now our example is complete and returns the difference between the two arrays of objects.
